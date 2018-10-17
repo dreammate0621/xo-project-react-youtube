@@ -1,0 +1,38 @@
+.slide-filters-container {
+  width          : 250px;
+  height         : 100%;
+  background     : #f9e5c0;
+  padding        : 15px;
+  display        : flex;
+  flex-direction : column;
+}
+
+h3.title {
+  margin      : 0 0 18px;
+  color       : #5a5a5a;
+  font-weight : 500;
+  button.mat-icon-button {
+    position      : absolute;
+    right         : 5px;
+    top           : 2px;
+    padding       : 0;
+    min-width     : 0;
+    width         : 40px;
+    height        : 40px;
+    flex-shrink   : 0;
+    line-height   : 40px;
+    border-radius : 50%;
+  }
+}
+
+.divider {
+  height : 10px;
+}
+
+.videosCountPerPage {
+  width     : 100%;
+  font-size : 11px;
+  .rc-slider {
+    padding : 24px 0;
+  }
+}
