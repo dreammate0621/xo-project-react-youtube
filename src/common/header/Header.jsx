@@ -37,7 +37,7 @@ class Header extends Component {
           <div className="opened-module-title">
             {this.state.title}
           </div>
-          <Button className="menu-toggle" onClick={this.toggleDrawer()}>
+          <Button className="menu-toggle" onClick={this.toggleDrawer(true)}>
             <SettingsIcon aria-label="Settings"/>
           </Button>
         </nav>
@@ -45,7 +45,7 @@ class Header extends Component {
           anchor="right"
           open={this.state.drawerIsOpened}
           onClose={this.toggleDrawer(false)}>
-            <SlideFilters config={this.props.config} onChanges={this.props.onChanges}/>
+            <SlideFilters config={this.props.config} onChanges={this.props.onChanges} closeMenu={this.toggleDrawer(false)}/>
         </Drawer>
       </div>
     );
