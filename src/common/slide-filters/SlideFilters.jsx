@@ -92,15 +92,26 @@ class SlideFilters extends Component {
       this.props.config.maxVideosToLoad = val;
       this.props.onChanges();
     };
+
+    const countryChange = (selectedCountry) => {
+      this.props.config.defaultRegion = selectedCountry.code;
+      this.props.onChanges();
+    };
+
+    const categoryChange = (selectedCategory) => {
+      this.props.config.defaultCategoryId = selectedCategory.id;
+      this.props.onChanges();
+    };
+
     return (
       <div className="slide-filters-container">
         <h3 className="title">
           Filters
-          <Button className="mat-icon-button">
+          <Button className="mat-icon-button" onClick={this.props.closeMenu}>
             <CloseIcon aria-label="Close"/>
           </Button>
         </h3>
-        <Downshift id="countrySelect">
+        <Downshift id="countrySelect" onChange={countryChange}>
           {({
               getInputProps,
               getItemProps,
@@ -112,8 +123,10 @@ class SlideFilters extends Component {
             <div>
               {renderInput({
                 fullWidth : true,
-                InputProps: getInputProps(),
-                label     : 'Select Country'
+                InputProps: getInputProps({
+                  onChange: this.inputOnChange
+                }),
+                label     : 'Select Country',
               })}
               <div {...getMenuProps()}>
                 {isOpen ? (
@@ -134,7 +147,7 @@ class SlideFilters extends Component {
           )}
         </Downshift>
         <div className="divider"/>
-        <Downshift id="categorySelect">
+        <Downshift id="categorySelect" onChange={categoryChange}>
           {({
               getInputProps,
               getItemProps,
@@ -146,7 +159,9 @@ class SlideFilters extends Component {
             <div>
               {renderInput({
                 fullWidth : true,
-                InputProps: getInputProps(),
+                InputProps: getInputProps({
+                  onChange: this.inputOnChange
+                }),
                 label     : 'Select Category'
               })}
               <div {...getMenuProps()}>
@@ -186,7 +201,8 @@ class SlideFilters extends Component {
 
 SlideFilters.propTypes = {
   config   : PropTypes.object,
-  onChanges: PropTypes.func
+  onChanges: PropTypes.func,
+  closeMenu: PropTypes.func
 };
 
 export default SlideFilters;
