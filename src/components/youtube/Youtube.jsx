@@ -37,7 +37,6 @@ class Youtube extends Component {
          })
          .catch((err) => {
            this.setState({isError: true});
-           console.log(err);
          });
   }
 

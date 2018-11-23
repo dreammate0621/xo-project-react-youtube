@@ -7,20 +7,39 @@ const axios = Axios.create({
 });
 
 export class YoutubeService {
-  getTrendingVideos(videosPerPage = appConfig.maxVideosToLoad) {
-    const params = {
+  constructor() {
+    this.nextPageToken = '';
+  }
+
+  async getTrendingVideos(videosPerPage = appConfig.maxVideosToLoad) {
+    this.nextPageToken = '';
+
+    const request = (params) => axios.get('/', {params}).then(({ data }) => {
+      const { items, nextPageToken } = data;
+      this.nextPageToken = nextPageToken;
+
+      return items
+        .map((item) => new VideoClass(item))
+        .filter((item) => item.id !== '');
+    }).catch((err) => err);
+
+    let videos = [];
+    let getParams = {
       part: appConfig.partsToLoad,
       chart: appConfig.chart,
       videoCategoryId: appConfig.defaultCategoryId,
       regionCode: appConfig.defaultRegion,
-      maxResults: videosPerPage,
-      key: appConfig.youtubeApiKey
+      maxResults: Math.min(videosPerPage, 50),
+      key: appConfig.youtubeApiKey,
+      pageToken: this.nextPageToken
     };
 
-    return axios.get('/', {params}).then((res) => {
-      return res.data.items
-        .map((item) => new VideoClass(item))
-        .filter((item) => item.id !== '');
-    }).catch((err) => err);
+    while (videos.length < videosPerPage) {
+      getParams.maxResults = Math.min(videosPerPage - videos.length, 50);
+      getParams.pageToken = this.nextPageToken;
+      videos = videos.concat(await request(getParams));
+    }
+
+    return videos;
   }
 }
