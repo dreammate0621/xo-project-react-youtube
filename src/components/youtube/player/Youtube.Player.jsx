@@ -12,7 +12,7 @@ class YoutubePlayer extends Component {
     const iframe = '<iframe title="Video"' +
       '        width="100%"' +
       '        height="100%"' +
-      '        src={https://www.youtube.com/embed/'+id+'?autoplay=1}'+
+      '        src="https://www.youtube.com/embed/'+id+'?autoplay=1"'+
       '        frameBorder="0"'+
       '        allowFullScreen/>';
     setTimeout(() => {
